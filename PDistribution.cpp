@@ -1,16 +1,5 @@
 #include <iostream>
-#include <iomanip>
-#include <cstdlib>
 #include <random>
-using namespace std;
-
-double generateRandomNumber() {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_real_distribution<double> dis(0.0, 1.0);
-
-    return dis(gen);
-}
 
 int main() {
     int n;
@@ -20,10 +9,20 @@ int main() {
     std::cout << "Enter a value for n: ";
     std::cin >> n;
 
+    // Define the probabilities
+    double probability_X_0_2 = 0.8;
+    double probability_X_1_7 = 0.2;
+
+    // Set up random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<double> dis(0.0, 1.0);
+
     for (int i = 1; i <= 1000; ++i) {
         for (int j = 1; j <= n; ++j) {
-            // Generate X from U(0, 1)
-            double X = generateRandomNumber();
+            // Generate X with specified probabilities
+            double rand_num = dis(gen);
+            double X = (rand_num < probability_X_0_2) ? 0.2 : 1.7;
 
             S = S + X;
         }
