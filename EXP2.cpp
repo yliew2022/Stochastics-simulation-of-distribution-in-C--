@@ -1,35 +1,37 @@
 #include <iostream>
-#include <random>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
 
 int main() {
     int n;
-    double S = 0;
+    double S, X;
     int c = 0;
 
     std::cout << "Enter a value for n: ";
     std::cin >> n;
 
-    // Set up random number generation with an exponential distribution
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::exponential_distribution<double> dist(1.0 / 2.0); // Mean = 2
+    // Seed the random number generator
+    std::srand(static_cast<unsigned>(std::time(0)));
 
     for (int i = 1; i <= 1000; ++i) {
+        S = 0.0;
+
         for (int j = 1; j <= n; ++j) {
-            // Generate X from exponential distribution
-            double X = dist(gen);
+            // Generate X ~ exp(2)
+            X = 2.0 * std::log(static_cast<double>(std::rand()) / RAND_MAX);
 
-            S = S + X;
+            S += X;
         }
 
+        // Check the condition
         if (S / n > 0.45 && S / n < 0.55) {
-            c = c + 1;
+            c++;
         }
-
-        S = 0;
     }
 
-    std::cout << static_cast<double>(c) / 1000 << std::endl;
+    // Print the result
+    std::cout << static_cast<double>(c) / 1000.0 << std::endl;
 
     return 0;
 }
